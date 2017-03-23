@@ -5,7 +5,5 @@ export interface Flower {
     _id: string,
     commonName: string,
     cultivar: string,
-    source: string,
-    gardenLocation: string,
-    year: number
+    gardenLocation: string
 }
