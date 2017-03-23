@@ -79,16 +79,16 @@ public class FlowerController {
 
     // Get all the names of the beds in the DB
     public String listBeds() {
-        Document output = new Document();
-        DistinctIterable<String> beds
-                = flowerCollection
-                .distinct("gardenLocation",String.class);
+
+        Document filterDoc = new Document();
+
+        DistinctIterable<String> beds = flowerCollection.distinct("gardenLocation",String.class);
 
         for (String bed: beds){
-            output.append(bed,bed);
+            filterDoc.append(bed,bed);
         }
 
-        return output.toJson();
+        return filterDoc.toJson();
     }
 
 
