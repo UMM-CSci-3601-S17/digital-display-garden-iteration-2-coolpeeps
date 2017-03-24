@@ -5,8 +5,6 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { AppComponent }         from './app/app.component';
 import { NavbarComponent } from './app/navbar/navbar.component';
 import { HomeComponent} from './app/home/home.component';
-import { UserListComponent } from './app/users/user-list.component';
-import { UserListService } from './app/users/user-list.service';
 import { HomeService } from './app/home/home.service';
 import { routing } from './app/app.routes';
 import { FormsModule } from '@angular/forms';
@@ -32,10 +30,9 @@ import { ReactiveFormsModule } from '@angular/forms';
         AppComponent,
         HomeComponent,
         NavbarComponent,
-        UserListComponent,
         FlowerComponent,
     ],
-    providers: [ UserListService, HomeService, FlowerService ],
+    providers: [ HomeService, FlowerService ],
     bootstrap: [ AppComponent ]
 })
 
