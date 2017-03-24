@@ -6,7 +6,7 @@ import { Flower } from "./flower";
 @Injectable()
 export class FlowerService {
     private bedUrl: string = API_URL + "beds";
-    private flowerUrl: string = API_URL + "flowers";
+    private flowerUrl: string = API_URL + "plants";
     constructor(private http:Http) { }
 
     getFlower(garden: string, cultivar:string): Observable<any> {
