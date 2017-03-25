@@ -20,7 +20,7 @@ public class FlowerController {
 
     private final MongoCollection<Document> flowerCollection;
 
-    public FlowerController(String dbName) throws IOException {
+    public FlowerController() throws IOException {
         // Set up our server address
         // (Default host: 'localhost', default port: 27017)
         // ServerAddress testAddress = new ServerAddress();
@@ -30,8 +30,7 @@ public class FlowerController {
         MongoClient mongoClient = new MongoClient(); // Defaults!
 
         // Try connecting to a database
-        MongoDatabase db = mongoClient.getDatabase(dbName);
-
+        MongoDatabase db = mongoClient.getDatabase("realD");
         flowerCollection = db.getCollection("flowers");
     }
 
@@ -79,16 +78,16 @@ public class FlowerController {
 
     // Get all the names of the beds in the DB
     public String listBeds() {
-
-        Document filterDoc = new Document();
-
-        DistinctIterable<String> beds = flowerCollection.distinct("gardenLocation",String.class);
+        Document output = new Document();
+        DistinctIterable<String> beds
+                = flowerCollection
+                .distinct("gardenLocation",String.class);
 
         for (String bed: beds){
-            filterDoc.append(bed,bed);
+            output.append(bed,bed);
         }
 
-        return filterDoc.toJson();
+        return output.toJson();
     }
 
 

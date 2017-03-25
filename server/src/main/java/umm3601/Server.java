@@ -16,7 +16,7 @@ public class Server {
         // a problem which is resolved in `server/build.gradle`.
         staticFiles.location("/public");
 
-        FlowerController flowerController = new FlowerController("ddg");
+        FlowerController flowerController = new FlowerController();
 
         options("/*", (request, response) -> {
 
