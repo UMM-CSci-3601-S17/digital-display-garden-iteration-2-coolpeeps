@@ -69,6 +69,24 @@ public class Server {
             return "Sorry, we couldn't find that!";
         });
 
+        post("api/plant/leaveComment", (req, res) -> {
+            res.type("application/json");
+            return FlowerController.storeFlowerComment(req.body());
+        });
+
+        post("api/plant/:id/like", (req, res) -> {
+            res.type("application/json");
+            String id = req.params("id");
+            return flowerController.incrementMetadata(id, "likes");
+        });
+
+        // Dislike a specific plant
+        // todo Should this be POST or PUT or something?
+        post("api/plant/:id/dislike", (req, res) -> {
+            res.type("application/json");
+            String id = req.params("id");
+            return flowerController.incrementMetadata(id, "dislikes");
+        });
     }
 
 }

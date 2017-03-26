@@ -57,56 +57,26 @@
 
 <!--like & dislike buttons-->
 <p class="our-font">Do you like this flower?</p>
-<div class = "btn-group btn-group-justified">
-    <a class="btn btn-default btn-color">
-        <span class="glyphicon glyphicon-thumbs-up"></span>
-    </a>
-    <a class="btn btn-default btn-color">
-        <span class="glyphicon glyphicon-thumbs-down"></span>
-    </a>
+<div *ngIf="!rated">
+    <button type="button" (click)="this.rate('like')"><span class="glyphicon glyphicon-thumbs-up"></span> Like</button>
+    <button type="button" (click)="this.rate('dislike')"><span class="glyphicon glyphicon-thumbs-down"></span> Dislike</button>
+</div>
+<div *ngIf="rated">
+    Thanks for your feedback!
 </div>
 <br>
-<!--
-<div class = "responseButtonDiv">
-    <button class="responseButton" (click)="clicked($event)">
-        <span class="glyphicon glyphicon-thumbs-up"></span>
-    </button>
-    <button class="responseButton" (click)="clicked($event)">
-        <span class="glyphicon glyphicon-thumbs-down"></span>
-    </button>
-</div>
--->
-
 
 <!--Comment box-->
 <div class = "fullComment">
-    <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm.value, myForm.valid)">
-        <div>
-            <p class="our-font">Tell Us Your Thoughts!</p>
-            <label class="our-font">Comment:</label>
-            <textarea [(ngModel)]="commentText" rows="5" wrap="on" style="width: 95%;"> </textarea>
-            <!--
-            <input type="text" formControlName="comment" class="commentBox">
-            -->
-            <!--<small [hidden]="myForm.controls.comment.valid || (myForm.controls.comment.pristine && !submitted)">
-            </small>-->
+    <div *ngIf="!commented">
+        <textarea [(ngModel)]="commentText" rows="5" wrap="on" style="width: 95%;"></textarea>
 
-            <br>
-            <button type="button" (click)="this.comment(commentText)">Leave a comment</button>
-        </div>
-        <div *ngIf="commented">
-            Your comment has been submitted.
-        </div>
-    </form>
+        <button type="button" (click)="this.comment(commentText)">Leave a comment</button>
+    </div>
+    <div *ngIf="commented">
+        Your comment has been submitted.
+    </div>
 </div>
-
-
-<!--Visitor's thoughts-->
-<!--
-<hr class = "flowerPageHR">
-<h3>Other Visitor's Thoughts</h3>
-<hr class = "flowerPageHR">
--->
 
 <!--Styles-->
 <link href='//fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
@@ -146,5 +116,4 @@
         font-size: 25px;
         padding: 15px;
     }
-
 </style>

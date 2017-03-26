@@ -38,7 +38,7 @@ export class FlowerComponent implements OnInit {
         if(!this.rated){
             this.flowerService.rateFlower(this.flower["_id"]["$oid"], rating)
                 .subscribe(succeeded => this.rated = succeeded);
-            console.log("hello");
+            console.log(rating);
         }
     }
 
