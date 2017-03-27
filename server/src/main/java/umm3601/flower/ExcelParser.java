@@ -173,9 +173,10 @@ public class ExcelParser {
     // Uses the document to one at a time, add flower information into the database.
     public static void populateDatabase(String[][] cellValues){
         MongoClient mongoClient = new MongoClient();
+
         MongoDatabase test = mongoClient.getDatabase("test");
-        MongoCollection plants = test.getCollection("flowers");
-        plants.drop();
+        MongoCollection flowers = test.getCollection("flowers");
+        flowers.drop();
 
         String[] keys = getKeys(cellValues);
 
@@ -184,10 +185,12 @@ public class ExcelParser {
             for(int j = 0; j < cellValues[i].length; j++){
                 map.put(keys[j], cellValues[i][j]);
             }
-
             Document doc = new Document();
             doc.putAll(map);
-            plants.insertOne(doc);
+            doc.append("Likes", "0");
+            doc.append("Dislikes", "0");
+            doc.append("Page Views", "0");
+            flowers.insertOne(doc);
         }
     }
 

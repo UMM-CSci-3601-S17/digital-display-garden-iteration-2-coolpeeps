@@ -12,4 +12,7 @@ public class Flower {
     public String id;
     public String source;
     public String SaSeedVaVeg;
+    public int likes;
+    public int dislikes;
+    public int pageViews;
 }
