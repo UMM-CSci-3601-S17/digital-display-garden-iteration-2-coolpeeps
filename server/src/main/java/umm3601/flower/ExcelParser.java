@@ -6,25 +6,26 @@ import com.mongodb.client.MongoDatabase;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import static java.lang.Math.max;
 import static java.lang.Math.round;
+import org.bson.BsonDocument;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 
 public class ExcelParser {
 
-    public static String FILE_NAME = "/home/Accession list 2016.xlsx";
+    public static String FILE_NAME = "/home/lauxx265/IdeaProjects/digital-display-garden-iteration-2-coolpeeps/server/src/main/java/umm3601/flower/Accessionlist2016.xlsx";
 
     public static void main(String[] args) {
         parseExcel();
     }
 
     public ExcelParser(boolean testing){
-        if (testing){
-            FILE_NAME = "/IDPH_STD_Illinois_By_County_By_Sex.xlsx";
-        }
     }
 
     public static void parseExcel() {
@@ -40,8 +41,7 @@ public class ExcelParser {
 
     public static String[][] extractFromXLSX() {
         try {
-            Object objectO = new Object();
-            InputStream excelFile = objectO.getClass().getResourceAsStream(FILE_NAME);
+            FileInputStream excelFile = new FileInputStream(new File(FILE_NAME));
 
             Workbook workbook = new XSSFWorkbook(excelFile);
             Sheet datatypeSheet = workbook.getSheetAt(0);
@@ -60,8 +60,7 @@ public class ExcelParser {
                     if (currentCell.getCellTypeEnum() == CellType.STRING) {
                         cellValues[currentCell.getRowIndex()][currentCell.getColumnIndex()] = currentCell.getStringCellValue();
                     } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
-                       ExcelParser parser = new ExcelParser(false);
-parser.parseExcel(); cellValues[currentCell.getRowIndex()][currentCell.getColumnIndex()] =
+                        cellValues[currentCell.getRowIndex()][currentCell.getColumnIndex()] =
                                 Integer.toString((int)Math.round(currentCell.getNumericCellValue()));
                     }
 
