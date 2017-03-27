@@ -8,17 +8,27 @@ import com.mongodb.client.model.Sorts;
 import com.mongodb.util.JSON;
 import org.bson.Document;
 import org.bson.types.ObjectId;
-
+import org.bson.BsonInvalidOperationException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
+import org.bson.BsonInvalidOperationException;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+import org.bson.conversions.Bson;
+import com.mongodb.client.FindIterable;
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Projections.include;
+import static com.mongodb.client.model.Updates.*;
+import static com.mongodb.client.model.Projections.fields;
 
 import static com.mongodb.client.model.Filters.eq;
 
 public class FlowerController {
 
     private final MongoCollection<Document> flowerCollection;
+    private static MongoCollection<Document> commentCollection;
 
     public FlowerController(String dbName) throws IOException {
         // Set up our server address
@@ -33,6 +43,7 @@ public class FlowerController {
         MongoDatabase db = mongoClient.getDatabase(dbName);
 
         flowerCollection = db.getCollection("flowers");
+        commentCollection = db.getCollection("comments");
     }
 
     // List flowers
@@ -91,18 +102,54 @@ public class FlowerController {
         return output.toJson();
     }
 
+    public boolean incrementMetadata(String id, String field) {
+
+        ObjectId objectId;
+
+        try {
+            objectId = new ObjectId(id);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
 
 
-    // Get the average age of all users by company
-//    public String getAverageAgeByCompany() {
-//        AggregateIterable<Document> documents
-//                = userCollection.aggregate(
-//                Arrays.asList(
-//                        Aggregates.group("$company",
-//                                Accumulators.avg("averageAge", "$age")),
-//                        Aggregates.sort(Sorts.ascending("_id"))
-//                ));
-//        System.err.println(JSON.serialize(documents));
-//        return JSON.serialize(documents);
-//    }
+        Document searchDocument = new Document();
+        searchDocument.append("_id", objectId);
+
+        Bson updateDocument = inc("metadata." + field, 1);
+
+        return null != flowerCollection.findOneAndUpdate(searchDocument, updateDocument);
+    }
+
+    public static boolean storeFlowerComment(String json) {
+
+        try {
+
+            Document toInsert = new Document();
+            Document parsedDocument = Document.parse(json);
+
+            if (parsedDocument.containsKey("plantId") && parsedDocument.get("plantId") instanceof String) {
+                toInsert.put("commentOnObjectOfId", new ObjectId(parsedDocument.getString("plantId")));
+            } else {
+                return false;
+            }
+
+            if (parsedDocument.containsKey("comment") && parsedDocument.get("comment") instanceof String) {
+                toInsert.put("comment", parsedDocument.getString("comment"));
+            } else {
+                return false;
+            }
+
+            commentCollection.insertOne(toInsert);
+
+        } catch (BsonInvalidOperationException e){
+            e.printStackTrace();
+            return false;
+        } catch (org.bson.json.JsonParseException e){
+            return false;
+        }
+
+        return true;
+    }
+
 }
