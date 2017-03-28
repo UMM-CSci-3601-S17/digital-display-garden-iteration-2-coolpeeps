@@ -1,19 +1,18 @@
-
 import { Component, OnInit } from '@angular/core';
-import {PlantListService} from "./plant-list.service";
+import {FlowerService} from "./flower.service";
 
 @Component({
-    selector: 'login-component',
-    templateUrl: 'login.component.html'
+    selector: 'administration-component',
+    templateUrl: 'administration.component.html'
 })
-export class LoginComponent{
+export class AdministrationComponent{
 
 
     username: string;
     password: string;
     showConfirmation: boolean;
 
-    constructor(private plantListService: PlantListService) {}
+    constructor(private FlowerService: FlowerService) {}
 
     setUserPass(user, pass) : void{
         if(user != null && pass != null) {
@@ -23,7 +22,7 @@ export class LoginComponent{
     }
 
     fileChange(event) {
-        this.plantListService.uploadFile(event);
+        this.FlowerService.uploadFile(event);
         this.showConfirmation = true;
     }
 

@@ -30,7 +30,7 @@ public class FlowerController {
     private final MongoCollection<Document> flowerCollection;
     private static MongoCollection<Document> commentCollection;
 
-    public FlowerController(String dbName) throws IOException {
+    public FlowerController() throws IOException {
         // Set up our server address
         // (Default host: 'localhost', default port: 27017)
         // ServerAddress testAddress = new ServerAddress();
@@ -40,7 +40,7 @@ public class FlowerController {
         MongoClient mongoClient = new MongoClient(); // Defaults!
 
         // Try connecting to a database
-        MongoDatabase db = mongoClient.getDatabase(dbName);
+        MongoDatabase db = mongoClient.getDatabase("test");
 
         flowerCollection = db.getCollection("flowers");
         commentCollection = db.getCollection("comments");
