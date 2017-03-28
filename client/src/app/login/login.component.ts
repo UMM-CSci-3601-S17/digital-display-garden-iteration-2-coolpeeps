@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import {PlantListService} from "./plant-list.service";
+import {PlantListService} from "./login.component.service";
 
 @Component({
     selector: 'login-component',
