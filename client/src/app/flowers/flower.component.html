@@ -4,6 +4,8 @@
 
 
 <!--Bed navbar-->
+
+
 <nav class="navbar navbar-inverse" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -19,7 +21,10 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-            <li class="active our-font white-font drop-down" *ngFor="let currentBed of bedNames" (click)="onSelectBed(currentBed)">{{currentBed}}</li>
+            <li class="active our-font white-font drop-down hidden-xs" *ngFor="let currentBed of bedNames"
+                (click)="onSelectBed(currentBed)">{{currentBed}}</li>
+            <li class="active our-font white-font drop-down visible-xs" data-toggle="collapse" data-target=".navbar-collapse" *ngFor="let currentBed of bedNames"
+                (click)="onSelectBed(currentBed)">{{currentBed}}</li>
         </ul>
     </div><!-- /.navbar-collapse -->
 </nav>
@@ -40,8 +45,9 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-        <ul class="nav navbar-nav">
-            <li class="active our-font white-font drop-down" *ngFor="let currentFlower of flowerNames" (click)="onSelectFlower(currentFlower)">{{currentFlower}}</li>
+        <ul class="nav navbar-nav2">
+            <li class="active our-font white-font drop-down visible-xs" *ngFor="let currentFlower of flowerNames"
+                (click)="onSelectFlower(currentFlower)">{{currentFlower}}</li>
         </ul>
     </div><!-- /.navbar-collapse -->
 </nav>
@@ -112,6 +118,9 @@
     .bg-img {
         width: 100%;
         z-index: auto;
+    }
+    .no-padding {
+        padding-left: 0;
     }
     .our-font {
         font-family: 'Open Sans';
