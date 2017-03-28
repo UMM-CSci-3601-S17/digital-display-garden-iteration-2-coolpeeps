@@ -13,8 +13,6 @@ import { PipeModule } from './pipe.module';
 import {FlowerComponent} from "./app/flowers/flower.component";
 import { FlowerService } from './app/flowers/flower.service';
 import { ReactiveFormsModule } from '@angular/forms';
-import {LoginComponent} from "./app/login/login.component";
-import {PlantListService} from "./app/login/login.component.service";
 
 
 
@@ -33,9 +31,9 @@ import {PlantListService} from "./app/login/login.component.service";
         HomeComponent,
         NavbarComponent,
         FlowerComponent,
-        LoginComponent,
+
     ],
-    providers: [ HomeService, FlowerService , PlantListService],
+    providers: [ HomeService, FlowerService],
     bootstrap: [ AppComponent ]
 })
 

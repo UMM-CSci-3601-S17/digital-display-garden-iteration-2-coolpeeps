@@ -27,6 +27,17 @@ export class FlowerService {
         };
         return this.http.post(this.plantUrl + "/" + "leaveComment", JSON.stringify(returnObject)).map(res => res.json());
     }
+
+    uploadFile(event): boolean{
+        console.log("Uploading file");
+        let fileList: FileList = event.target.files;
+        if(fileList.length > 0){
+            console.log("sup");
+            this.http.post(this.plantUrl, event);
+            return true;
+        }
+
+    }
 }
 
 
