@@ -22,7 +22,7 @@ export class FlowerComponent implements OnInit {
     private rated: Boolean = false;
     private commented: Boolean = false;
     private currentQuery: string = "";
-    private flower: Flower = {_id: "", commonName: "", cultivar: "", gardenLocation: ""};
+    public flower: Flower = {_id: "", commonName: "", cultivar: "", gardenLocation: ""};
     constructor(private flowerService: FlowerService,
                 private route: ActivatedRoute,
     ){ }
@@ -32,6 +32,7 @@ export class FlowerComponent implements OnInit {
         this.route.params
             .switchMap((params:Params) => this.flowerService.getFlowerById(params['_id']))
             .subscribe(flower => this.flower = flower);
+        this.subscribeToServiceForId();
     }
 
     private rate(rating: string): void {
@@ -50,9 +51,24 @@ export class FlowerComponent implements OnInit {
                     .subscribe(succeeded => this.commented = succeeded);
             }
         }
-
-
     }
+
+    private subscribeToServiceForId() {
+        if (this.flower["_id"]["$oid"]) {
+            this.flowerService.getFlowerById(this.flower["_id"]["$oid"]).subscribe(
+                flower => this.flower = flower,
+                err => {
+                    console.log(err);
+                }
+            );
+        }
+    }
+
+    setId(id: Object) {
+        this.flower._id = { "$oid" : id };
+        this.subscribeToServiceForId();
+    }
+
 }
 
 
