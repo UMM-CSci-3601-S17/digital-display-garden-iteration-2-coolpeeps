@@ -32,9 +32,9 @@ public class ExcelParser {
     }
 
 
-    public static void parseExcel(File file) {
+    public static void parseExcel(File upload, String file) {
         System.out.println("hello");
-        String[][] arrayRepresentation = extractFromXLSX(file);
+        String[][] arrayRepresentation = extractFromXLSX(upload, file);
         String[][] horizontallyCollapsed = collapseHorizontally(arrayRepresentation);
         String[][] verticallyCollapsed = collapseVertically(horizontallyCollapsed);
         replaceNulls(verticallyCollapsed);
@@ -43,9 +43,11 @@ public class ExcelParser {
     }
 
 
-    public static String[][] extractFromXLSX(File file) {
+    public static String[][] extractFromXLSX(File upload, String file) {
         try {
-            FileInputStream excelFile = new FileInputStream(new File(FILE_NAME));
+            String path = upload.getPath();
+            String pathToFile = path + "/" + file;
+            FileInputStream excelFile = new FileInputStream(new File(pathToFile));
             //FileInputStream excelFile = new FileInputStream(file);
 
             Workbook workbook = new XSSFWorkbook(excelFile);

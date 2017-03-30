@@ -2,6 +2,8 @@ package umm3601;
 import com.oreilly.servlet.MultipartRequest;
 import umm3601.MultipartMap;
 import java.io.*;
+import java.util.Enumeration;
+
 import static spark.Spark.*;
 import umm3601.flower.ExcelParser;
 import umm3601.flower.FlowerController;
@@ -52,8 +54,11 @@ public class Server {
             }
             // this dumps all files contained in the multipart request to target directory.
             System.out.println("file should be here");
-            final MultipartRequest request = new MultipartRequest(req.raw(), upload.getAbsolutePath());
-            parser.parseExcel(upload);
+            MultipartRequest request = new MultipartRequest(req.raw(), upload.getAbsolutePath());
+            Enumeration files = request.getFileNames();
+            String name = (String)files.nextElement();
+            String fileName = request.getFilesystemName(name);
+            parser.parseExcel(upload, fileName);
             halt(200);
             return null;
         });
