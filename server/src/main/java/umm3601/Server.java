@@ -97,12 +97,7 @@ public class Server {
             return flowerController.getFlower(id);
         });
 
-        // Handle "404" file not found requests:
-        notFound((req, res) -> {
-            res.type("text");
-            res.status(404);
-            return "Sorry, we couldn't find that!";
-        });
+        get("/*", clientRoute);
 
         post("api/plant/leaveComment", (req, res) -> {
             res.type("application/json");
@@ -119,6 +114,13 @@ public class Server {
             res.type("application/json");
             String id = req.params("id");
             return flowerController.incrementMetadata(id, "dislikes");
+        });
+
+        // Handle "404" file not found requests:
+        notFound((req, res) -> {
+            res.type("text");
+            res.status(404);
+            return "Sorry, we couldn't find that!";
         });
     }
 
