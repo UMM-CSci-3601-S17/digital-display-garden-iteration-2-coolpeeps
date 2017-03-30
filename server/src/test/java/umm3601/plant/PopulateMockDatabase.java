@@ -1,3 +1,4 @@
+/*
 package umm3601.plant;
 
 import com.mongodb.BasicDBObject;
@@ -7,7 +8,7 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.*;
 import org.bson.types.ObjectId;
 import org.junit.Before;
-import umm3601.digitalDisplayGarden.PlantController;
+import umm3601.flower.FlowerController;
 
 import javax.print.Doc;
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class PopulateMockDatabase {
 
     }
 
-    private PlantController plantController;
+    private FlowerController flowerController;
     private String begoniaIdString;
     public String hexAlternantheraID;
 
@@ -151,3 +152,4 @@ public class PopulateMockDatabase {
 
 
 
+*/

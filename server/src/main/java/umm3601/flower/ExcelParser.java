@@ -32,7 +32,7 @@ public class ExcelParser {
     }
 
 
-    public static void parseExcel(File upload, String file) {
+    public static void parseExcel(File upload, String file) throws IOException {
         System.out.println("hello");
         String[][] arrayRepresentation = extractFromXLSX(upload, file);
         String[][] horizontallyCollapsed = collapseHorizontally(arrayRepresentation);
@@ -43,49 +43,49 @@ public class ExcelParser {
     }
 
 
-    public static String[][] extractFromXLSX(File upload, String file) {
-        try {
-            String path = upload.getPath();
-            String pathToFile = path + "/" + file;
-            FileInputStream excelFile = new FileInputStream(new File(pathToFile));
-            //FileInputStream excelFile = new FileInputStream(file);
+    public static String[][] extractFromXLSX(File upload, String file) throws IOException {
+        if (upload == null && file!= null){
+            System.out.println("hello");
+            Object objectO = new Object();
+            InputStream excelFile = objectO.getClass().getResourceAsStream(file);
+            String[][] cellValues = testworkbookToArray2D(excelFile);
+            return cellValues;
+        }
+        String path = upload.getPath();
+        String pathToFile = path + "/" + file;
+        FileInputStream excelFile = new FileInputStream(new File(pathToFile));
+        String[][] cellvalues = workbookToArray2D(excelFile);
+        return cellvalues;
+    }
 
-            Workbook workbook = new XSSFWorkbook(excelFile);
-            Sheet datatypeSheet = workbook.getSheetAt(0);
 
-            String[][] cellValues = new String[datatypeSheet.getLastRowNum() + 1]
-                    [max(max(datatypeSheet.getRow(1).getLastCellNum(), datatypeSheet.getRow(2).getLastCellNum()),
-                    datatypeSheet.getRow(3).getLastCellNum())];
+    public static String[][] workbookToArray2D(FileInputStream excelFile) throws IOException {
+        Workbook workbook = new XSSFWorkbook(excelFile);
+        Sheet datatypeSheet = workbook.getSheetAt(0);
 
-            for(Row currentRow : datatypeSheet) {
-                //cellValues[currentRow.getRowNum()] = new String[currentRow.getLastCellNum()];
+        String[][] cellValues = new String[datatypeSheet.getLastRowNum() + 1]
+                [max(max(datatypeSheet.getRow(1).getLastCellNum(), datatypeSheet.getRow(2).getLastCellNum()),
+                datatypeSheet.getRow(3).getLastCellNum())];
 
-                for (Cell currentCell : currentRow) {
+        for(Row currentRow : datatypeSheet) {
+            //cellValues[currentRow.getRowNum()] = new String[currentRow.getLastCellNum()];
 
-                    //getCellTypeEnum shown as deprecated for version 3.15
-                    //getCellTypeEnum ill be renamed to getCellType starting from version 4.0
-                    if (currentCell.getCellTypeEnum() == CellType.STRING) {
-                        cellValues[currentCell.getRowIndex()][currentCell.getColumnIndex()] = currentCell.getStringCellValue();
-                    } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
-                        cellValues[currentCell.getRowIndex()][currentCell.getColumnIndex()] =
-                                Integer.toString((int)Math.round(currentCell.getNumericCellValue()));
-                    }
+            for (Cell currentCell : currentRow) {
 
+
+                //getCellTypeEnum shown as deprecated for version 3.15
+                //getCellTypeEnum ill be renamed to getCellType starting from version 4.0
+                if (currentCell.getCellTypeEnum() == CellType.STRING) {
+                    cellValues[currentCell.getRowIndex()][currentCell.getColumnIndex()] = currentCell.getStringCellValue();
+                } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
+                    cellValues[currentCell.getRowIndex()][currentCell.getColumnIndex()] =
+                            Integer.toString((int)Math.round(currentCell.getNumericCellValue()));
                 }
 
             }
-            return cellValues;
 
-        } catch (FileNotFoundException e) {
-            System.out.println("EVERYTHING BLEW UP STOP STOP STOP");
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            System.out.println("EVERYTHING BLEW UP STOP STOP STOP");
-            e.printStackTrace();
-            return null;
         }
-
+        return cellValues;
     }
 
     public static String[][] collapseHorizontally(String[][] cellValues){
@@ -315,6 +315,36 @@ public class ExcelParser {
                 System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
             }
         }
+    }
+
+    public static String[][] testworkbookToArray2D(InputStream excelFile) throws IOException {
+        String stuff = null;
+        Workbook workbook = new XSSFWorkbook(excelFile);
+        Sheet datatypeSheet = workbook.getSheetAt(0);
+
+        String[][] cellValues = new String[datatypeSheet.getLastRowNum() + 1]
+                [max(max(datatypeSheet.getRow(1).getLastCellNum(), datatypeSheet.getRow(2).getLastCellNum()),
+                datatypeSheet.getRow(3).getLastCellNum())];
+
+        for(Row currentRow : datatypeSheet) {
+            //cellValues[currentRow.getRowNum()] = new String[currentRow.getLastCellNum()];
+
+            for (Cell currentCell : currentRow) {
+                String stuff2 = null;
+
+                //getCellTypeEnum shown as deprecated for version 3.15
+                //getCellTypeEnum ill be renamed to getCellType starting from version 4.0
+                if (currentCell.getCellTypeEnum() == CellType.STRING) {
+                    cellValues[currentCell.getRowIndex()][currentCell.getColumnIndex()] = currentCell.getStringCellValue();
+                } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
+                    cellValues[currentCell.getRowIndex()][currentCell.getColumnIndex()] =
+                            Integer.toString((int)Math.round(currentCell.getNumericCellValue()));
+                }
+
+            }
+
+        }
+        return cellValues;
     }
 
 }
