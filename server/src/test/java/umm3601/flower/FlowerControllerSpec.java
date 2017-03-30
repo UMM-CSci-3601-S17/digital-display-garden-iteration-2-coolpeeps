@@ -38,6 +38,9 @@ public class FlowerControllerSpec
                 "                    source: \"src-a\",\n" +
                 "                    gardenLocation: \"loc-1\",\n" +
                 "                    year: 2016\n" +
+                "                    Likes: 15\n" +
+                "                    Dislikes: 100\n" +
+                "                    ViewCounts: 115\n" +
                 "                }"));
         testFlowers.add(Document.parse("{\n" +
                 "                    _id: \"id-2\",\n" +
@@ -46,6 +49,9 @@ public class FlowerControllerSpec
                 "                    source: \"src-a\",\n" +
                 "                    gardenLocation: \"loc-1\",\n" +
                 "                    year: 2016\n" +
+                "                    Likes: 200\n" +
+                "                    Dislikes: 100\n" +
+                "                    ViewCounts: 300\n" +
                 "                }"));
         testFlowers.add(Document.parse("{\n" +
                 "                    _id: \"id-3\",\n" +
@@ -54,6 +60,9 @@ public class FlowerControllerSpec
                 "                    source: \"src-b\",\n" +
                 "                    gardenLocation: \"loc-2\",\n" +
                 "                    year: 2016\n" +
+                "                    Likes: 0\n" +
+                "                    Dislikes: 0\n" +
+                "                    ViewCounts: 0\n" +
                 "                }"));
         ObjectId roseId = new ObjectId();
         BasicDBObject rose = new BasicDBObject("_id", roseId);
@@ -69,7 +78,7 @@ public class FlowerControllerSpec
         // It might be important to construct this _after_ the DB is set up
         // in case there are bits in the constructor that care about the state
         // of the database.
-        flowerController = new FlowerController("test");
+        flowerController = new FlowerController();
     }
 
     // http://stackoverflow.com/questions/34436952/json-parse-equivalent-in-mongo-driver-3-x-for-java
@@ -130,5 +139,7 @@ public class FlowerControllerSpec
         Document rose = Document.parse(jsonResult);
         assertEquals("Name should match", "rose", rose.get("commonName"));
     }
+
+
 }
 

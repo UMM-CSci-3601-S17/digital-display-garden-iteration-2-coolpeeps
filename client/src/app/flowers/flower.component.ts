@@ -1,9 +1,7 @@
 import { FlowerService } from "./flower.service";
 import { Flower } from "./flower";
-import {ActivatedRoute, Params} from '@angular/router';
 import { Component, Input, Output, EventEmitter, ElementRef, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import 'rxjs/add/operator/switchMap';
 import { Feedback } from './feedback';
 
 
@@ -15,26 +13,67 @@ import { Feedback } from './feedback';
         'button.submitButton {width: 60%; height:60px; border: 2px solid #4CAF50; font-size: 40px;' +
         ' display: block; margin: auto;}', 'div.fullComment {width: 99%; margin: auto;}', 'hr.flowerPageHR {border: 1px solid #4CAF50;}',
         'li.active {font-size: 30px; padding-bottom: 15px; border-bottom: solid green;}'],*/
-    selector: 'my-app',
+    selector: 'flower.component.ts',
 })
 
 export class FlowerComponent implements OnInit {
+    public flowerNames: string[];
+    public currentBed: string;
+    public currentFlower: string;
+    public text: string;
+    public myForm: FormGroup; // our model driven form
+    public submitted: boolean; // keep track on whether form is submitted
+    public events: any[] = [];
     private rated: Boolean = false;
     private commented: Boolean = false;
+    private bedNames: string[];
     private currentQuery: string = "";
     private flower: Flower = {_id: "", commonName: "", cultivar: "", gardenLocation: ""};
-    constructor(private flowerService: FlowerService,
-                private route: ActivatedRoute,
-    ){ }
+    constructor(private flowerService: FlowerService)
+    {}
 
 
     ngOnInit() :void{
-        this.route.params
-            .switchMap((params:Params) => this.flowerService.getFlowerById(params['_id']))
-            .subscribe(flower => this.flower = flower);
+        this.flowerService.getBedNames().subscribe(
+            beds => this.bedNames = Object.keys(beds),
+            err => {
+                console.log(err);
+            }
+        );
+    }
+
+    onSelectBed(currentBed: string): void {
+        console.log('selected bed');
+        this.currentBed = currentBed;
+        this.flowerService.getFlowerNames(currentBed).subscribe(
+            flowers => this.flowerNames = this.parseFlowers(flowers),
+            err => {
+                console.log(err);
+            }
+        );
+    }
+
+    parseFlowers(flowers: Flower[]) {
+        var tempNames: string[] = [];
+        for (let each of flowers) {
+            tempNames.push(each.cultivar);
+        }
+        return tempNames;
+
+    }
+
+    onSelectFlower(currentFlower: string): void {
+        this.currentFlower = currentFlower;
+        this.flowerService.getFlower(this.currentBed, currentFlower).subscribe(
+            flower => this.flower = flower[0],
+            err => {
+                console.log(err);
+            }
+        );
     }
 
     private rate(rating: string): void {
+        console.log("selected rating");
         if(!this.rated){
             this.flowerService.rateFlower(this.flower["_id"]["$oid"], rating)
                 .subscribe(succeeded => this.rated = succeeded);
@@ -42,7 +81,7 @@ export class FlowerComponent implements OnInit {
         }
     }
 
-    private comment(comment: string): void {
+    comment(comment: string): void {
         if(!this.commented){
             console.log(comment);
             if(comment != null) {
