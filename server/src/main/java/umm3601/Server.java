@@ -4,6 +4,9 @@ import com.oreilly.servlet.MultipartRequest;
 import java.io.*;
 import java.util.Enumeration;
 
+import spark.Route;
+import spark.utils.IOUtils;
+
 import static spark.Spark.*;
 import umm3601.flower.ExcelParser;
 import umm3601.flower.FlowerController;
@@ -44,12 +47,16 @@ public class Server {
 
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
-        // Simple example route
-        get("/hello", (req, res) -> "Hello World");
 
         // Redirects for the "home" page
         redirect.get("", "/");
-        redirect.get("/", "http://localhost:9000");
+
+        Route clientRoute = (req, res) -> {
+            InputStream stream = flowerController.getClass().getResourceAsStream("/public/index.html");
+            return IOUtils.toString(stream);
+        };
+
+        get("/", clientRoute);
 
         post("api/flowers/upload", (req, res)->{
             System.out.println("file should be here");
