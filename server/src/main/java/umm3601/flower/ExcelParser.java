@@ -22,22 +22,19 @@ public class ExcelParser {
     public static String FILE_NAME = "/home/lauxx265/IdeaProjects/digital-display-garden-iteration-2-coolpeeps/server/src/main/java/umm3601/flower/Accessionlist2016.xlsx";
 
     public static void main(String[] args) {
-        parseExcel();
+
     }
 
-    public ExcelParser(boolean testing){
-    }
 
     public static void parseExcel() {
-
         String[][] arrayRepresentation = extractFromXLSX();
-
         String[][] horizontallyCollapsed = collapseHorizontally(arrayRepresentation);
         String[][] verticallyCollapsed = collapseVertically(horizontallyCollapsed);
         replaceNulls(verticallyCollapsed);
         populateDatabase(verticallyCollapsed);
 
     }
+
 
     public static String[][] extractFromXLSX() {
         try {

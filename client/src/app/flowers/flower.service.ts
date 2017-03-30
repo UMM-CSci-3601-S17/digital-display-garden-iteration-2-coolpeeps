@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, RequestOptions, Headers} from '@angular/http';
 import { Observable } from "rxjs";
 import { Flower } from "./flower";
 
 @Injectable()
 export class FlowerService {
-    private plantUrl: string = API_URL + "plant";
+    private plantUrl: string = API_URL + "flowers";
     constructor(private http:Http) { }
 
     // getPlant(): Observable<Plant[]> {
@@ -26,6 +26,32 @@ export class FlowerService {
             comment: comment
         };
         return this.http.post(this.plantUrl + "/" + "leaveComment", JSON.stringify(returnObject)).map(res => res.json());
+    }
+
+    uploadFile(event) {
+        let files = event.target.files;
+        if (files.length > 0) {
+            let formData: FormData = new FormData();
+            for (let file of files) {
+                formData.append('files', file, file.name);
+            }
+            console.log(formData);
+            let headers = new Headers();
+            headers.set('Accept', 'application/json');
+            let options = new RequestOptions({ headers: headers });
+            this.http.post("http://localhost:4567/api/flowers/upload", formData, options)
+                .map(res => res.json())
+                .catch(error => Observable.throw(error))
+                .subscribe(
+                    data => {
+                        // Consume Files
+                        // ..
+                        console.log('uploaded and processed files');
+                    },
+                    error => console.log(error),
+                    );
+            console.log("file sent");
+        }
     }
 }
 
