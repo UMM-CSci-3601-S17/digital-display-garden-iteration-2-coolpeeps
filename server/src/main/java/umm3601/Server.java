@@ -1,6 +1,6 @@
 package umm3601;
 import com.oreilly.servlet.MultipartRequest;
-import umm3601.MultipartMap;
+
 import java.io.*;
 import java.util.Enumeration;
 
@@ -11,7 +11,12 @@ import umm3601.flower.FlowerController;
 
 
 public class Server {
+
+    public static File upload;
+    public static String name;
+    public static String fileName;
     public static void main(String[] args) throws IOException {
+
         ExcelParser parser = new ExcelParser(false);
 
         // This users looks in the folder `public` for the static web artifacts,
@@ -48,7 +53,7 @@ public class Server {
 
         post("api/flowers/upload", (req, res)->{
             System.out.println("file should be here");
-            File upload = new File("server/src/main/java/umm3601/flower");
+            upload = new File("server/src/main/java/umm3601/flower");
             if (!upload.exists() && !upload.mkdirs()) {
                 throw new RuntimeException("Failed to create directory " + upload.getAbsolutePath());
             }
@@ -56,8 +61,8 @@ public class Server {
             System.out.println("file should be here");
             MultipartRequest request = new MultipartRequest(req.raw(), upload.getAbsolutePath());
             Enumeration files = request.getFileNames();
-            String name = (String)files.nextElement();
-            String fileName = request.getFilesystemName(name);
+            name = (String)files.nextElement();
+            fileName = request.getFilesystemName(name);
             parser.parseExcel(upload, fileName);
             halt(200);
             return null;
