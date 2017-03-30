@@ -39,7 +39,7 @@ public class ExcelParser {
         String[][] verticallyCollapsed = collapseVertically(horizontallyCollapsed);
         replaceNulls(verticallyCollapsed);
         populateDatabase(verticallyCollapsed);
-
+        //return true;
     }
 
 

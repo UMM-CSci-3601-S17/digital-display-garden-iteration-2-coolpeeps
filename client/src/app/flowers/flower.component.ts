@@ -22,11 +22,14 @@ export class FlowerComponent implements OnInit{
     public flowerNames: string[];
     public currentBed: string;
     public currentFlower: string;
-    public flower: Flower;
     public text: string;
     public myForm: FormGroup; // our model driven form
     public submitted: boolean; // keep track on whether form is submitted
     public events: any[] = []; // use later to display form changes
+    private rated: Boolean = false;
+    private commented: Boolean = false;
+    private currentQuery: string = "";
+    private flower: Flower = {_id: "", commonName: "", cultivar: "", gardenLocation: ""};
 
     constructor(private flowerService: FlowerService, private _fb: FormBuilder) {
         // this.users = this.userListService.getUsers();
@@ -73,6 +76,13 @@ export class FlowerComponent implements OnInit{
                 console.log(err);
             }
         );
+    }
+
+    rate(id_number: string, rating: boolean): void{
+        console.log("should have the rating");
+        console.log(rating);
+        this.flowerService.ratePlant(id_number, rating)
+            .subscribe(succeeded => this.rated = succeeded);
     }
 
     save(model: Feedback, isValid: boolean) {

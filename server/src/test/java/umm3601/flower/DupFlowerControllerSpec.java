@@ -1,3 +1,4 @@
+/*
 package umm3601.flower;
 
 import com.mongodb.BasicDBObject;
@@ -70,7 +71,8 @@ public class DupFlowerControllerSpec
         assertEquals("Should be 24 flowers", 24, docs.size());
     }
 
-    @Test
+   */
+/* @Test
     public void getGardenLocationFlowers() {
         Map<String, String[]> argMap = new HashMap<>();
         String jsonResult;
@@ -88,7 +90,8 @@ public class DupFlowerControllerSpec
         jsonResult = flowerController.listFlowers(argMap);
         docs = parseJsonArray(jsonResult);
         assertEquals ("36 flowers",36,docs.size());
-    }
+    }*//*
+
 
     @Test
     public void listBeds() {
@@ -102,3 +105,4 @@ public class DupFlowerControllerSpec
     }
 }
 
+*/

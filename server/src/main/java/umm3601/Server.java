@@ -15,6 +15,7 @@ public class Server {
     public static File upload;
     public static String name;
     public static String fileName;
+    public static boolean status = false;
     public static void main(String[] args) throws IOException {
 
         ExcelParser parser = new ExcelParser(false);
@@ -51,7 +52,9 @@ public class Server {
         redirect.get("", "/");
         redirect.get("/", "http://localhost:9000");
 
-        post("api/flowers/upload", (req, res)->{
+
+
+        post("/api/flowers/upload", (req, res)->{
             System.out.println("file should be here");
             upload = new File("server/src/main/java/umm3601/flower");
             if (!upload.exists() && !upload.mkdirs()) {
@@ -64,6 +67,7 @@ public class Server {
             name = (String)files.nextElement();
             fileName = request.getFilesystemName(name);
             parser.parseExcel(upload, fileName);
+            status = true;
             halt(200);
             return null;
         });
@@ -88,6 +92,7 @@ public class Server {
             return flowerController.getFlower(id);
         });
 
+
         // Handle "404" file not found requests:
         notFound((req, res) -> {
             res.type("text");
@@ -100,13 +105,14 @@ public class Server {
             return flowerController.storeFlowerComment(req.body());
         });
 
-        post("api/plant/:id/like", (req, res) -> {
+        post("api/flowers/:id/like", (req, res) -> {
             res.type("application/json");
             String id = req.params("id");
+            System.out.println(id);
             return flowerController.incrementMetadata(id, "likes");
         });
 
-        post("api/plant/:id/dislike", (req, res) -> {
+        post("api/flowers/:id/dislike", (req, res) -> {
             res.type("application/json");
             String id = req.params("id");
             return flowerController.incrementMetadata(id, "dislikes");
