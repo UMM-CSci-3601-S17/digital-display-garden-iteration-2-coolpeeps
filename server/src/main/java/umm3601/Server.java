@@ -20,7 +20,7 @@ public class Server {
         // a problem which is resolved in `server/build.gradle`.
         staticFiles.location("/public");
 
-        FlowerController flowerController = new FlowerController();
+        FlowerController flowerController = new FlowerController("test");
 
         options("", (request, response) -> {
 
@@ -67,7 +67,7 @@ public class Server {
 //        // List beds
         get("api/beds", (req, res) -> {
             res.type("application/json");
-            return flowerController.listBeds();
+            return flowerController.listBeds(req.queryMap().toMap());
         });
 
         // List flowers
