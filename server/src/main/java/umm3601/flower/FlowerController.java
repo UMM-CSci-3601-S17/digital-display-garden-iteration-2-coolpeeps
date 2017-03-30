@@ -1,36 +1,29 @@
 package umm3601.flower;
 
+import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.client.*;
-import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Sorts;
 import com.mongodb.util.JSON;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.bson.BsonInvalidOperationException;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import org.bson.BsonInvalidOperationException;
-import org.bson.Document;
-import org.bson.types.ObjectId;
 import org.bson.conversions.Bson;
 import com.mongodb.client.FindIterable;
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Projections.include;
 import static com.mongodb.client.model.Updates.*;
-import static com.mongodb.client.model.Projections.fields;
 
-import static com.mongodb.client.model.Filters.eq;
+import com.mongodb.DBCollection;
 
 public class FlowerController {
 
     private final MongoCollection<Document> flowerCollection;
-    private static MongoCollection<Document> commentCollection;
+    private final DBCollection foo;
 
-    public FlowerController() throws IOException {
+    public FlowerController(String dbName) throws IOException {
         // Set up our server address
         // (Default host: 'localhost', default port: 27017)
         // ServerAddress testAddress = new ServerAddress();
@@ -40,10 +33,12 @@ public class FlowerController {
         MongoClient mongoClient = new MongoClient(); // Defaults!
 
         // Try connecting to a database
-        MongoDatabase db = mongoClient.getDatabase("test");
+        MongoDatabase db = mongoClient.getDatabase(dbName);
+        DB dab = mongoClient.getDB(dbName);
 
         flowerCollection = db.getCollection("flowers");
-        commentCollection = db.getCollection("comments");
+        foo = dab.getCollection("flowers");
+
     }
 
     // List flowers
@@ -89,14 +84,16 @@ public class FlowerController {
     }
 
     // Get all the names of the beds in the DB
-    public String listBeds() {
+    public String listBeds(Map<String, String[]> queryParams) {
         Document output = new Document();
-        DistinctIterable<String> beds
-                = flowerCollection
-                .distinct("gardenLocation",String.class);
+//        System.out.println(foo.distinct("gardenLocation"));
+        List magic = foo.distinct("gardenLocation");//sort list?
 
-        for (String bed: beds){
-            output.append(bed,bed);
+        for (Object x: magic){
+            if (x == null || x.equals("")) {}
+            else {
+                output.append(x.toString(), x);
+            }
         }
 
         return output.toJson();
@@ -139,8 +136,6 @@ public class FlowerController {
             } else {
                 return false;
             }
-
-            commentCollection.insertOne(toInsert);
 
         } catch (BsonInvalidOperationException e){
             e.printStackTrace();
