@@ -74,7 +74,7 @@ public class FlowerController {
     public String getFlower(String id) {
         FindIterable<Document> jsonFlowers
                 = flowerCollection
-                .find(eq("_id", new ObjectId(id)));
+                .find(eq("_id", id));
 
         Iterator<Document> iterator = jsonFlowers.iterator();
 
