@@ -194,9 +194,9 @@ public class ExcelParser {
             }
             Document doc = new Document();
             doc.putAll(map);
-            doc.append("Likes", "0");
+/*            doc.append("Likes", "0");
             doc.append("Dislikes", "0");
-            doc.append("Page Views", "0");
+            doc.append("Page Views", "0");*/
             flowers.insertOne(doc);
         }
 

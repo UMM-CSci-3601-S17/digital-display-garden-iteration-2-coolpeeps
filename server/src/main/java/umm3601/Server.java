@@ -88,7 +88,7 @@ public class Server {
         // Get a flower
         get("api/flowers/:id", (req, res) -> {
             res.type("application/json");
-            String id = req.params("id");
+            String id = req.params(":id");
             return flowerController.getFlower(id);
         });
 
@@ -105,17 +105,17 @@ public class Server {
             return flowerController.storeFlowerComment(req.body());
         });
 
-        post("api/flowers/:id/like", (req, res) -> {
+        post("/api/flowers/:id/like", (req, res) -> {
             res.type("application/json");
             String id = req.params("id");
-            System.out.println(id);
-            return flowerController.incrementMetadata(id, "likes");
+            System.out.println("hello");
+            return flowerController.incrementLikes(id, "Likes");
         });
 
-        post("api/flowers/:id/dislike", (req, res) -> {
+        post("/api/flowers/:id/dislike", (req, res) -> {
             res.type("application/json");
             String id = req.params("id");
-            return flowerController.incrementMetadata(id, "dislikes");
+            return flowerController.incrementLikes(id, "Dislikes");
         });
     }
 

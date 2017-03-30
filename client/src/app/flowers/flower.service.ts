@@ -11,6 +11,7 @@ export class FlowerService {
     private likeRating: string = "like";
     private dislikeRating: string = "dislike";
     private buildUrl: string = "";
+    private buildUrl2: string = "";
     constructor(private http:Http) { }
 
     getFlower(garden: string, cultivar:string): Observable<any> {
@@ -27,10 +28,11 @@ export class FlowerService {
 
     ratePlant(id: string, rating: boolean): Observable<Boolean> {
         if (rating == true){
-            this.buildUrl = this.flowerUrl + + "/:" + id + "/" + this.likeRating;
+            this.buildUrl = this.flowerUrl + "/:" + id + "/" + this.likeRating;
             return this.http.post(this.buildUrl, rating).map(res => res.json());
         } else {
-            return this.http.request(this.flowerUrl + "/" + id + "/" + this.dislikeRating).map(res => res.json());
+            this.buildUrl2 = this.flowerUrl + "/:" + id + "/" + this.dislikeRating;
+            return this.http.post(this.buildUrl2, rating).map(res => res.json());
         }
 
     }

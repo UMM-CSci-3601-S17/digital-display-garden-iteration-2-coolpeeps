@@ -99,24 +99,15 @@ public class FlowerController {
         return output.toJson();
     }
 
-    public boolean incrementMetadata(String id, String field) {
-
-        ObjectId objectId;
-
-        try {
-            objectId = new ObjectId(id);
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-
-
+    public boolean incrementLikes(String id, String field) {
+        String _id = id.replaceAll(":", "");
         Document searchDocument = new Document();
-        searchDocument.append("_id", objectId);
-
-        Bson updateDocument = inc("metadata." + field, 1);
-
+        searchDocument.append("_id", _id);
+        Bson updateDocument = inc(field, 1);
         return null != flowerCollection.findOneAndUpdate(searchDocument, updateDocument);
     }
+
+
 
     public static boolean storeFlowerComment(String json) {
 
