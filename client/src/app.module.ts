@@ -10,9 +10,9 @@ import { routing } from './app/app.routes';
 import { FormsModule } from '@angular/forms';
 
 import { PipeModule } from './pipe.module';
-import {FlowerComponent} from "./app/flowers/flower.component";
+import { FlowerComponent } from "./app/flowers/flower.component";
 import { FlowerService } from './app/flowers/flower.service';
-import {AdministrationComponent} from "./app/flowers/administration.component"
+import { AdministrationComponent } from "./app/flowers/administration.component"
 import { ReactiveFormsModule } from '@angular/forms';
 
 
@@ -35,7 +35,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         FlowerComponent,
         AdministrationComponent,
     ],
-    providers: [ HomeService, FlowerService, AdministrationComponent ],
+    providers: [ HomeService, FlowerService ],
     bootstrap: [ AppComponent ]
 })
 

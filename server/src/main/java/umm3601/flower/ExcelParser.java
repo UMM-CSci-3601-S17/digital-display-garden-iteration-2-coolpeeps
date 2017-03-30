@@ -19,10 +19,10 @@ import org.bson.conversions.Bson;
 
 public class ExcelParser {
 
-    public static String FILE_NAME = "/home/lauxx265/IdeaProjects/digital-display-garden-iteration-2-coolpeeps/server/src/main/resources/AccessionList2016.xlsx";
+    public static String FILE_NAME = "/home/lauxx265/IdeaProjects/digital-display-garden-iteration-2-coolpeeps/server/src/main/java/umm3601/flower/AccessionList2016.xlsx";
 
     public static void main(String[] args) {
-        parseExcel();
+        //parseExcel();
     }
 
     public ExcelParser(boolean testing){
@@ -32,8 +32,9 @@ public class ExcelParser {
     }
 
 
-    public static void parseExcel() {
-        String[][] arrayRepresentation = extractFromXLSX();
+    public static void parseExcel(File file) {
+        System.out.println("hello");
+        String[][] arrayRepresentation = extractFromXLSX(file);
         String[][] horizontallyCollapsed = collapseHorizontally(arrayRepresentation);
         String[][] verticallyCollapsed = collapseVertically(horizontallyCollapsed);
         replaceNulls(verticallyCollapsed);
@@ -42,9 +43,10 @@ public class ExcelParser {
     }
 
 
-    public static String[][] extractFromXLSX() {
+    public static String[][] extractFromXLSX(File file) {
         try {
             FileInputStream excelFile = new FileInputStream(new File(FILE_NAME));
+            //FileInputStream excelFile = new FileInputStream(file);
 
             Workbook workbook = new XSSFWorkbook(excelFile);
             Sheet datatypeSheet = workbook.getSheetAt(0);
