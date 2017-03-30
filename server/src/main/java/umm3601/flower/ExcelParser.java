@@ -19,10 +19,16 @@ import org.bson.conversions.Bson;
 
 public class ExcelParser {
 
-    public static String FILE_NAME = "/home/lauxx265/IdeaProjects/digital-display-garden-iteration-2-coolpeeps/server/src/main/java/umm3601/flower/Accessionlist2016.xlsx";
+    public static String FILE_NAME = "/home/lauxx265/IdeaProjects/digital-display-garden-iteration-2-coolpeeps/server/src/main/resources/AccessionList2016.xlsx";
 
     public static void main(String[] args) {
+        parseExcel();
+    }
 
+    public ExcelParser(boolean testing){
+        if (testing){
+            FILE_NAME = "/IDPH_STD_Illinois_By_County_By_Sex.xlsx";
+        }
     }
 
 
@@ -189,12 +195,97 @@ public class ExcelParser {
             doc.append("Page Views", "0");
             flowers.insertOne(doc);
         }
+
+       /* for (int i = 4; i < 50; i++) {
+            Map<String, String> map = new HashMap<String, String>();
+            for (int j = 0; j < cellValues[i].length; j++) {
+                map.put(keys[j], cellValues[i][j]);
+            }
+            Document doc = new Document();
+            doc.append("gardenLocation", "GL1");
+            flowers.insertOne(doc);
+        }
+
+        for (int i = 50; i < 100; i++) {
+            Map<String, String> map = new HashMap<String, String>();
+            for (int j = 0; j < cellValues[i].length; j++) {
+                map.put(keys[j], cellValues[i][j]);
+            }
+            Document doc = new Document();
+            doc.append("gardenLocation", "GL2");
+            flowers.insertOne(doc);
+        }
+
+        for (int i = 100; i < 150; i++) {
+            Map<String, String> map = new HashMap<String, String>();
+            for (int j = 0; j < cellValues[i].length; j++) {
+                map.put(keys[j], cellValues[i][j]);
+            }
+            Document doc = new Document();
+            doc.append("gardenLocation", "GL3");
+            flowers.insertOne(doc);
+        }
+
+        for (int i = 150; i < 200; i++) {
+            Map<String, String> map = new HashMap<String, String>();
+            for (int j = 0; j < cellValues[i].length; j++) {
+                map.put(keys[j], cellValues[i][j]);
+            }
+            Document doc = new Document();
+            doc.append("gardenLocation", "GL4");
+            flowers.insertOne(doc);
+        }
+
+        for (int i = 200; i < 250; i++) {
+            Map<String, String> map = new HashMap<String, String>();
+            for (int j = 0; j < cellValues[i].length; j++) {
+                map.put(keys[j], cellValues[i][j]);
+            }
+            Document doc = new Document();
+            doc.append("gardenLocation", "GL5");
+            flowers.insertOne(doc);
+        }
+
+        for (int i = 250; i < 300; i++) {
+            Map<String, String> map = new HashMap<String, String>();
+            for (int j = 0; j < cellValues[i].length; j++) {
+                map.put(keys[j], cellValues[i][j]);
+            }
+            Document doc = new Document();
+            doc.append("gardenLocation", "GL6");
+            flowers.insertOne(doc);
+        }
+
+        for (int i = 300; i < 350; i++) {
+            Map<String, String> map = new HashMap<String, String>();
+            for (int j = 0; j < cellValues[i].length; j++) {
+                map.put(keys[j], cellValues[i][j]);
+            }
+            Document doc = new Document();
+            doc.append("gardenLocation", "GL7");
+            flowers.insertOne(doc);
+        }
+
+        for (int i = 350; i < cellValues.length; i++) {
+            Map<String, String> map = new HashMap<String, String>();
+            for (int j = 0; j < cellValues[i].length; j++) {
+                map.put(keys[j], cellValues[i][j]);
+            }
+            Document doc = new Document();
+            doc.append("gardenLocation", "GL8");
+            flowers.insertOne(doc);
+        }*/
+/*
+        for (int i = 450; i < cellValues.length; i++) {
+            Map<String, String> map = new HashMap<String, String>();
+            for (int j = 0; j < cellValues[i].length; j++) {
+                map.put(keys[j], cellValues[i][j]);
+            }
+            Document doc = new Document();
+            doc.append("gardenLocation", "GL9");
+            flowers.insertOne(doc);
+        }*/
     }
-
-    /*
-    ------------------------------- UTILITIES -----------------------------------
-     */
-
     // prints a 1D array
     public static void printArray(String[] input){
         System.out.print("[");
