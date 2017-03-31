@@ -23,6 +23,8 @@ public class FlowerControllerSpec
 {
     private FlowerController flowerController;
     private String roseIdString;
+    private String id = "id-1";
+    private String id2 = "id-2";
 
     @Before
     public void clearAndPopulateDB() throws IOException {
@@ -38,9 +40,6 @@ public class FlowerControllerSpec
                 "                    source: \"src-a\",\n" +
                 "                    gardenLocation: \"loc-1\",\n" +
                 "                    year: 2016\n" +
-                "                    Likes: 15\n" +
-                "                    Dislikes: 100\n" +
-                "                    ViewCounts: 115\n" +
                 "                }"));
         testFlowers.add(Document.parse("{\n" +
                 "                    _id: \"id-2\",\n" +
@@ -49,26 +48,20 @@ public class FlowerControllerSpec
                 "                    source: \"src-a\",\n" +
                 "                    gardenLocation: \"loc-1\",\n" +
                 "                    year: 2016\n" +
-                "                    Likes: 200\n" +
-                "                    Dislikes: 100\n" +
-                "                    ViewCounts: 300\n" +
                 "                }"));
         testFlowers.add(Document.parse("{\n" +
                 "                    _id: \"id-3\",\n" +
                 "                    commonName: \"daisy\",\n" +
                 "                    cultivar: \"cltv-daisy\",\n" +
-                "                    source: \"src-b\",\n" +
+                "                    source: \"src-a\",\n" +
                 "                    gardenLocation: \"loc-2\",\n" +
                 "                    year: 2016\n" +
-                "                    Likes: 0\n" +
-                "                    Dislikes: 0\n" +
-                "                    ViewCounts: 0\n" +
                 "                }"));
         ObjectId roseId = new ObjectId();
         BasicDBObject rose = new BasicDBObject("_id", roseId);
         rose = rose.append("commonName", "rose")
                 .append("cultivar", "cltv-rose")
-                .append("source", "src-b")
+                .append("source", "src-a")
                 .append("gardenLocation", "loc-2")
                 .append("year", 2016);
         roseIdString = roseId.toHexString();
@@ -101,7 +94,7 @@ public class FlowerControllerSpec
         return ((BsonString) doc.get("commonName")).getValue();
     }
 
-    /*@Test
+    @Test
     public void getAllFlowers() {
         Map<String, String[]> emptyMap = new HashMap<>();
         String jsonResult = flowerController.listFlowers(emptyMap);
@@ -115,15 +108,39 @@ public class FlowerControllerSpec
                 .collect(Collectors.toList());
         List<String> expectedCommonNames = Arrays.asList("daisy", "lily", "rose", "tulip");
         assertEquals("Names should match", expectedCommonNames, commonNames);
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void getSrcAFlowers() {
         Map<String, String[]> argMap = new HashMap<>();
         argMap.put("source", new String[] { "src-a" });
         String jsonResult = flowerController.listFlowers(argMap);
         BsonArray docs = parseJsonArray(jsonResult);
 
+        assertEquals("Should be 4 flowers", 4, docs.size());
+        List<String> commonNames = docs
+                .stream()
+                .map(FlowerControllerSpec::getCommonName)
+                .sorted()
+                .collect(Collectors.toList());
+        List<String> expectedCommonNames = Arrays.asList("daisy", "lily","rose", "tulip");
+        assertEquals("Names should match", expectedCommonNames, commonNames);
+    }
+
+    @Test
+    public void getRoseById() {
+        String jsonResult = flowerController.getFlower(roseIdString);
+        Document rose = Document.parse(jsonResult);
+        assertEquals("Name should match", "rose", rose.get("commonName"));
+    }
+
+    /*@Test
+    public void incrementLikes(){
+
+        Map<String, String[]> argMap = new HashMap<>();
+        argMap.put("Likes", new String[] { "1" });
+        String jsonResult = flowerController.listFlowers(argMap);
+        BsonArray docs = parseJsonArray(jsonResult);
         assertEquals("Should be 2 flowers", 2, docs.size());
         List<String> commonNames = docs
                 .stream()
@@ -131,16 +148,8 @@ public class FlowerControllerSpec
                 .sorted()
                 .collect(Collectors.toList());
         List<String> expectedCommonNames = Arrays.asList("lily", "tulip");
-        assertEquals("Names should match", expectedCommonNames, commonNames);
+        assertEquals("Names should match for Likes", expectedCommonNames, commonNames);
     }*/
-
-    /*@Test
-    public void getRoseById() {
-        String jsonResult = flowerController.getFlower(roseIdString);
-        Document rose = Document.parse(jsonResult);
-        assertEquals("Name should match", "rose", rose.get("commonName"));
-    }
-*/
 
 }
 
