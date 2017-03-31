@@ -66,10 +66,10 @@
 <p class="our-font">Do you like this flower?</p>
 <div class = "btn-group btn-group-justified">
     <a class="btn btn-default btn-color">
-        <span class="glyphicon glyphicon-thumbs-up"></span>
+        <span class="glyphicon glyphicon-thumbs-up" (click) = "this.rate(flower._id, true)" ></span>
     </a>
     <a class="btn btn-default btn-color">
-        <span class="glyphicon glyphicon-thumbs-down"></span>
+        <span class="glyphicon glyphicon-thumbs-down" (click) = "this.rate(flower._id, false)"></span>
     </a>
 </div>
 <br>
@@ -112,7 +112,7 @@
         <img class="imgButton" alt="Facebook" src="facebook-icon.png">
     </a>
     <a class="aClass1" href="https://twitter.com/WCROCMorris">
-        <img class="imgButton"  alt="Twitter" src="twitter_button.png">
+        <img class="imgButton" alt="Twitter" src="twitter_button.png">
     </a>
 </div>
 <br>
