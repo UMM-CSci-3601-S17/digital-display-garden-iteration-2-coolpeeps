@@ -18,6 +18,7 @@ public class Server {
     public static File upload;
     public static String name;
     public static String fileName;
+    public static boolean status = false;
     public static void main(String[] args) throws IOException {
 
         ExcelParser parser = new ExcelParser(false);
@@ -73,6 +74,7 @@ public class Server {
             name = (String)files.nextElement();
             fileName = request.getFilesystemName(name);
             parser.parseExcel(upload, fileName);
+            status = true;
             halt(200);
             return null;
         });
@@ -86,6 +88,7 @@ public class Server {
 
         // List flowers
         get("api/flowers", (req, res) -> {
+            System.out.println("display all data");
             res.type("application/json");
             return flowerController.listFlowers(req.queryMap().toMap());
         });
@@ -97,21 +100,23 @@ public class Server {
             return flowerController.getFlower(id);
         });
 
+
+
         post("api/plant/leaveComment", (req, res) -> {
             res.type("application/json");
             return flowerController.storeFlowerComment(req.body());
         });
 
-        post("api/plant/:id/like", (req, res) -> {
+        post("/api/flowers/:id/like", (req, res) -> {
             res.type("application/json");
             String id = req.params("id");
-            return flowerController.incrementMetadata(id, "likes");
+            return flowerController.incrementLikes(id, "likes");
         });
 
-        post("api/plant/:id/dislike", (req, res) -> {
+        post("/api/flowers/:id/dislike", (req, res) -> {
             res.type("application/json");
             String id = req.params("id");
-            return flowerController.incrementMetadata(id, "dislikes");
+            return flowerController.incrementLikes(id, "Dislikes");
         });
 
         get("/*", clientRoute);

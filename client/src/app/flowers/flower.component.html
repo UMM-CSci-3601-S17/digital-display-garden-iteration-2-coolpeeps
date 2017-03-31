@@ -57,6 +57,8 @@
 <div class="flower-info-background img-rounded" *ngIf="flower">
     <h2 class="cultivar-font">{{ flower.cultivar }}</h2>
     <h4 class="flower-info-font">Common name: {{ flower.commonName }}</h4>
+    <h4 class="flower-info-font">Source: {{ flower.source }}</h4>
+    <h4 class="flower-info-font"> ID: {{ flower._id}} </h4>
 </div>
 
 
@@ -89,15 +91,16 @@
         <div>
             <p class="our-font">Tell Us Your Thoughts!</p>
             <label class="our-font">Comment:</label>
-            <textarea class="form-control" rows="4" formControlName="comment"></textarea>
+            <!--<textarea id = "text-input" class="form-control" rows="4" formControlName="comment"></textarea>-->
             <!--
             <input type="text" formControlName="comment" class="commentBox">
             -->
+            <textarea #input type="text" (input) = "comment = $event.target.value" class="form-control" rows="4" formControlName="comment"></textarea>
             <small [hidden]="myForm.controls.comment.valid || (myForm.controls.comment.pristine && !submitted)">
             </small>
         </div>
         <br>
-        <button class="submitButton btn btn-color our-font" type="submit">Submit</button>
+        <button class="submitButton btn btn-color our-font" type="submit" (click) = "this.comment(flower._id)">Submit</button>
     </form>
 </div>
 
@@ -105,11 +108,11 @@
 <br>
 
 <div class="footerDiv">
-    <a href="https://www.facebook.com/WCROCMorrisMN">
-        <img class="imgButton" border="0" alt="Facebook" src="facebook-icon.png">
+    <a class="aClass1" href="https://www.facebook.com/WCROCMorrisMN">
+        <img class="imgButton" alt="Facebook" src="facebook-icon.png">
     </a>
-    <a href="https://twitter.com/WCROCMorris">
-        <img class="imgButton" border="0" alt="Twitter" src="twitter_button.png">
+    <a class="aClass1" href="https://twitter.com/WCROCMorris">
+        <img class="imgButton"  alt="Twitter" src="twitter_button.png">
     </a>
 </div>
 <br>
@@ -127,9 +130,13 @@
 <link href='//fonts.googleapis.com/css?family=PT Serif' rel='stylesheet'>
 <style>
     .footerDiv {
-        background-image: url("footer.png");
+        background: url('footer.png');
+    }
+    .aClass1 {
+        padding: 1px 16%;
     }
     .imgButton {
+        hspace: 20px;
         width: calc(20px + 10%);
     }
     .bg-img {

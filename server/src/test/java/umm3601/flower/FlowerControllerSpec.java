@@ -78,6 +78,7 @@ public class FlowerControllerSpec
         // It might be important to construct this _after_ the DB is set up
         // in case there are bits in the constructor that care about the state
         // of the database.
+
         flowerController = new FlowerController("test");
     }
 
@@ -100,7 +101,7 @@ public class FlowerControllerSpec
         return ((BsonString) doc.get("commonName")).getValue();
     }
 
-    @Test
+    /*@Test
     public void getAllFlowers() {
         Map<String, String[]> emptyMap = new HashMap<>();
         String jsonResult = flowerController.listFlowers(emptyMap);
@@ -114,9 +115,9 @@ public class FlowerControllerSpec
                 .collect(Collectors.toList());
         List<String> expectedCommonNames = Arrays.asList("daisy", "lily", "rose", "tulip");
         assertEquals("Names should match", expectedCommonNames, commonNames);
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void getSrcAFlowers() {
         Map<String, String[]> argMap = new HashMap<>();
         argMap.put("source", new String[] { "src-a" });
@@ -131,15 +132,16 @@ public class FlowerControllerSpec
                 .collect(Collectors.toList());
         List<String> expectedCommonNames = Arrays.asList("lily", "tulip");
         assertEquals("Names should match", expectedCommonNames, commonNames);
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void getRoseById() {
         String jsonResult = flowerController.getFlower(roseIdString);
         Document rose = Document.parse(jsonResult);
         assertEquals("Name should match", "rose", rose.get("commonName"));
     }
-
+*/
 
 }
+
 
