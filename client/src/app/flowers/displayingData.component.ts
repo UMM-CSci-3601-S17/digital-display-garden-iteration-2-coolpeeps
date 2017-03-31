@@ -18,15 +18,6 @@ export class DisplayingDataComponent{
 
     constructor(private FlowerService: FlowerService) {}
 
-    ngOnInit(): void{
-        this.FlowerService.getAllFlower().subscribe (
-            flowers => this.flowers = flowers,
-            err => {
-                console.log(err);
-            }
-        )
-    }
-
     setUserPass(user, pass) : void{
         if(user != null && pass != null) {
             this.username = user;

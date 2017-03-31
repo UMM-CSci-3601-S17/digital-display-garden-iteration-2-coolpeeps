@@ -14,11 +14,7 @@ export class FlowerService {
     private buildUrl2: string = "";
     constructor(private http:Http) { }
 
-    getAllFlower(): Observable<Flower[]>{
-        return this.http.request(this.flowerUrl).map(res => res.json());
-    }
-
-    getSpecificFlower(garden: string, cultivar:string): Observable<any> {
+    getFlower(garden: string, cultivar:string): Observable<any> {
         return this.http.request(this.flowerUrl + "?gardenLocation=" + garden + "&cultivar=" + cultivar).map(res => res.json());
     }
 
