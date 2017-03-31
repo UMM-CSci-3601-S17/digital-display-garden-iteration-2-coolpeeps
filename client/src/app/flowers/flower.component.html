@@ -19,11 +19,11 @@
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <div class="collapse navbar-collapse-1" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
             <li class="active our-font white-font drop-down hidden-xs" *ngFor="let currentBed of bedNames"
                 (click)="onSelectBed(currentBed)">{{currentBed}}</li>
-            <li class="active our-font white-font drop-down visible-xs" data-toggle="collapse" data-target=".navbar-collapse" *ngFor="let currentBed of bedNames"
+            <li class="active our-font white-font drop-down visible-xs" data-toggle="collapse" data-target=".navbar-collapse-1, .navbar-collapse-2" *ngFor="let currentBed of bedNames"
                 (click)="onSelectBed(currentBed)">{{currentBed}}</li>
         </ul>
     </div><!-- /.navbar-collapse -->
@@ -44,9 +44,9 @@
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+    <div class="collapse navbar-collapse-2" id="bs-example-navbar-collapse-2">
         <ul class="nav navbar-nav2">
-            <li class="active our-font white-font drop-down visible-xs" *ngFor="let currentFlower of flowerNames"
+            <li class="active our-font white-font drop-down visible-xs" data-toggle="collapse" data-target=".navbar-collapse-2" *ngFor="let currentFlower of flowerNames"
                 (click)="onSelectFlower(currentFlower)">{{currentFlower}}</li>
         </ul>
     </div><!-- /.navbar-collapse -->
