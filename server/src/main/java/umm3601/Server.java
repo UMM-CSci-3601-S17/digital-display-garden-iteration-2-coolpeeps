@@ -97,8 +97,6 @@ public class Server {
             return flowerController.getFlower(id);
         });
 
-        get("/*", clientRoute);
-
         post("api/plant/leaveComment", (req, res) -> {
             res.type("application/json");
             return flowerController.storeFlowerComment(req.body());
@@ -115,6 +113,8 @@ public class Server {
             String id = req.params("id");
             return flowerController.incrementMetadata(id, "dislikes");
         });
+
+        get("/*", clientRoute);
 
         // Handle "404" file not found requests:
         notFound((req, res) -> {
