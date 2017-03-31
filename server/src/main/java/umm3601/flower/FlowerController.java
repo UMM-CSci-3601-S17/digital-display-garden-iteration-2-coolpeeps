@@ -43,6 +43,7 @@ public class FlowerController {
 
     // List flowers
     public String listFlowers(Map<String, String[]> queryParams) {
+        System.out.println("hello");
         Document filterDoc = new Document();
 
         if (queryParams.containsKey("cultivar")) {
@@ -50,9 +51,9 @@ public class FlowerController {
             filterDoc = filterDoc.append("cultivar", targetCultivar);
         }
 
-        if (queryParams.containsKey("source")) {
-            String targetSource = queryParams.get("source")[0];
-            filterDoc = filterDoc.append("source", targetSource);
+        if (queryParams.containsKey("_id")) {
+            String targetSource = queryParams.get("_id")[0];
+            filterDoc = filterDoc.append("_id", targetSource);
         }
 
         if (queryParams.containsKey("gardenLocation")) {
@@ -60,9 +61,18 @@ public class FlowerController {
             filterDoc = filterDoc.append("gardenLocation", targetLocation);
         }
 
-        if (queryParams.containsKey("year")) {
-            int targetYear = Integer.parseInt(queryParams.get("year")[0]);
-            filterDoc = filterDoc.append("year", targetYear);
+        if (queryParams.containsKey("commonName")) {
+            String targetName= queryParams.get("commonName")[0];
+            filterDoc = filterDoc.append("commonName", targetName);
+        }
+
+        if (queryParams.containsKey("Likes")) {
+            try {
+                int targetYear = Integer.parseInt(queryParams.get("year")[0]);
+                filterDoc = filterDoc.append("year", targetYear);
+            }
+            catch (Exception e){
+            }
         }
 
         FindIterable<Document> matchingFlowers = flowerCollection.find(filterDoc);

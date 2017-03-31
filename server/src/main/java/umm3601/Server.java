@@ -77,6 +77,7 @@ public class Server {
 
         // List flowers
         get("api/flowers", (req, res) -> {
+            System.out.println("display all data");
             res.type("application/json");
             return flowerController.listFlowers(req.queryMap().toMap());
         });

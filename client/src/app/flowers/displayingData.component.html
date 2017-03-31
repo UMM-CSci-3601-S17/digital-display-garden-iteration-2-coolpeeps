@@ -1,0 +1,19 @@
+
+<ul class="list-group">
+    <li class="list-group-item list-group-item-info">
+        <input #input type="text" placeholder="CultiVar" (input)="flowerSearch = $event.target.value">
+        <input #input type="text" placeholder="ID" (input)="IDSearch = $event.target.value">
+        <input #input type="text" placeholder="commonName" (input)="nameSearch= $event.target.value">
+        <!--<input #input type="number" placeholder="Limit" [(ngModel)]="limitNumber">-->
+    </li>
+    <li class="list-group-item list-group-item-info">Flower List</li>
+    <li *ngFor="let flower of flowers | filterBy: {cultivar: flowerSearch} | filterBy: {commonName: nameSearch}
+                            | filterBy: {_id: IDSearch}
+                            " class="list-group-item" >
+        {{"ID: " + (flower._id) + " CultiVar: " + flower.cultivar + " Common Name: " + flower.commonName}}
+        <br>
+        <p>
+            {{"Body: " + todo.body}}
+        </p>
+    </li>
+</ul>

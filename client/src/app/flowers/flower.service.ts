@@ -8,9 +8,17 @@ export class FlowerService {
     private bedUrl: string = API_URL + "beds";
     private flowerUrl: string = API_URL + "flowers";
     private uploadUrl: string = API_URL + "flowers/upload";
+    private likeRating: string = "like";
+    private dislikeRating: string = "dislike";
+    private buildUrl: string = "";
+    private buildUrl2: string = "";
     constructor(private http:Http) { }
 
-    getFlower(garden: string, cultivar:string): Observable<any> {
+    getAllFlower(): Observable<Flower[]>{
+        return this.http.request(this.flowerUrl).map(res => res.json());
+    }
+
+    getSpecificFlower(garden: string, cultivar:string): Observable<any> {
         return this.http.request(this.flowerUrl + "?gardenLocation=" + garden + "&cultivar=" + cultivar).map(res => res.json());
     }
 
@@ -20,6 +28,16 @@ export class FlowerService {
 
     getBedNames(): Observable<any> {
         return this.http.request(this.bedUrl).map(res => res.json());
+    }
+
+    ratePlant(id: string, rating: boolean): Observable<Boolean> {
+        if (rating == true){
+            this.buildUrl = this.flowerUrl + "/:" + id + "/" + this.likeRating;
+            return this.http.post(this.buildUrl, rating).map(res => res.json());
+        } else {
+            this.buildUrl2 = this.flowerUrl + "/:" + id + "/" + this.dislikeRating;
+            return this.http.post(this.buildUrl2, rating).map(res => res.json());
+        }
     }
 
     uploadFile(event) {

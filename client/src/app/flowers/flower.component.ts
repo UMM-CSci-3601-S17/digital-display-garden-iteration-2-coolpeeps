@@ -67,7 +67,7 @@ export class FlowerComponent implements OnInit{
 
     onSelectFlower(currentFlower: string): void {
         this.currentFlower = currentFlower;
-        this.flowerService.getFlower(this.currentBed, currentFlower).subscribe(
+        this.flowerService.getSpecificFlower(this.currentBed, currentFlower).subscribe(
             flower => this.flower = flower[0],
             err => {
                 console.log(err);
