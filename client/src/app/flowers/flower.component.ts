@@ -78,6 +78,8 @@ export class FlowerComponent implements OnInit{
         );
     }
 
+
+
     rate(id_number: string, rating: boolean): void{
         console.log("should have the rating");
         console.log(rating);

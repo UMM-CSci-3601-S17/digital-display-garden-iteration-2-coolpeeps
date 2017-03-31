@@ -91,15 +91,16 @@
         <div>
             <p class="our-font">Tell Us Your Thoughts!</p>
             <label class="our-font">Comment:</label>
-            <textarea class="form-control" rows="4" formControlName="comment"></textarea>
+            <!--<textarea id = "text-input" class="form-control" rows="4" formControlName="comment"></textarea>-->
             <!--
             <input type="text" formControlName="comment" class="commentBox">
             -->
+            <textarea #input type="text" (input) = "comment = $event.target.value" class="form-control" rows="4" formControlName="comment"></textarea>
             <small [hidden]="myForm.controls.comment.valid || (myForm.controls.comment.pristine && !submitted)">
             </small>
         </div>
         <br>
-        <button class="submitButton btn btn-color our-font" type="submit">Submit</button>
+        <button class="submitButton btn btn-color our-font" type="submit" (click) = "this.comment(flower._id)">Submit</button>
     </form>
 </div>
 
