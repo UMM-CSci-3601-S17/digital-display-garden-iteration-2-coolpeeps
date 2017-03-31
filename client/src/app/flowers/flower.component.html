@@ -19,11 +19,11 @@
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <div class="collapse navbar-collapse-1" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
             <li class="active our-font white-font drop-down hidden-xs" *ngFor="let currentBed of bedNames"
                 (click)="onSelectBed(currentBed)">{{currentBed}}</li>
-            <li class="active our-font white-font drop-down visible-xs" data-toggle="collapse" data-target=".navbar-collapse" *ngFor="let currentBed of bedNames"
+            <li class="active our-font white-font drop-down visible-xs" data-toggle="collapse" data-target=".navbar-collapse-1, .navbar-collapse-2" *ngFor="let currentBed of bedNames"
                 (click)="onSelectBed(currentBed)">{{currentBed}}</li>
         </ul>
     </div><!-- /.navbar-collapse -->
@@ -44,9 +44,9 @@
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+    <div class="collapse navbar-collapse-2" id="bs-example-navbar-collapse-2">
         <ul class="nav navbar-nav2">
-            <li class="active our-font white-font drop-down visible-xs" *ngFor="let currentFlower of flowerNames"
+            <li class="active our-font white-font drop-down visible-xs" data-toggle="collapse" data-target=".navbar-collapse-2" *ngFor="let currentFlower of flowerNames"
                 (click)="onSelectFlower(currentFlower)">{{currentFlower}}</li>
         </ul>
     </div><!-- /.navbar-collapse -->
@@ -108,11 +108,11 @@
 <br>
 
 <div class="footerDiv">
-    <a href="https://www.facebook.com/WCROCMorrisMN">
-        <img class="imgButton" border="0" alt="Facebook" src="facebook-icon.png">
+    <a class="aClass1" href="https://www.facebook.com/WCROCMorrisMN">
+        <img class="imgButton" alt="Facebook" src="facebook-icon.png">
     </a>
-    <a href="https://twitter.com/WCROCMorris">
-        <img class="imgButton" border="0" alt="Twitter" src="twitter_button.png">
+    <a class="aClass1" href="https://twitter.com/WCROCMorris">
+        <img class="imgButton"  alt="Twitter" src="twitter_button.png">
     </a>
 </div>
 <br>
@@ -130,9 +130,13 @@
 <link href='//fonts.googleapis.com/css?family=PT Serif' rel='stylesheet'>
 <style>
     .footerDiv {
-        background-image: url("footer.png");
+        background: url('footer.png');
+    }
+    .aClass1 {
+        padding: 1px 16%;
     }
     .imgButton {
+        hspace: 20px;
         width: calc(20px + 10%);
     }
     .bg-img {
