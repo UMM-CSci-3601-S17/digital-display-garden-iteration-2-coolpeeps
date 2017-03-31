@@ -4,6 +4,9 @@ import com.oreilly.servlet.MultipartRequest;
 import java.io.*;
 import java.util.Enumeration;
 
+import spark.Route;
+import spark.utils.IOUtils;
+
 import static spark.Spark.*;
 import umm3601.flower.ExcelParser;
 import umm3601.flower.FlowerController;
@@ -28,33 +31,37 @@ public class Server {
 
         FlowerController flowerController = new FlowerController("test");
 
+
+
+
+        // Redirects for the "home" page
+        redirect.get("", "/");
+
+        Route clientRoute = (req, res) -> {
+            InputStream stream = flowerController.getClass().getResourceAsStream("/public/index.html");
+            return IOUtils.toString(stream);
+        };
+
+        get("/", clientRoute);
+
         options("", (request, response) -> {
 
             String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
             if (accessControlRequestHeaders != null) {
-             response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
             }
 
             String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
             if (accessControlRequestMethod != null) {
                 response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
             }
- 
+
             return "OK";
         });
 
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
-        // Simple example route
-        get("/hello", (req, res) -> "Hello World");
-
-        // Redirects for the "home" page
-        redirect.get("", "/");
-        redirect.get("/", "http://localhost:9000");
-
-
-
-        post("/api/flowers/upload", (req, res)->{
+        post("api/flowers/upload", (req, res)->{
             System.out.println("file should be here");
             upload = new File("server/src/main/java/umm3601/flower");
             if (!upload.exists() && !upload.mkdirs()) {
@@ -88,17 +95,11 @@ public class Server {
         // Get a flower
         get("api/flowers/:id", (req, res) -> {
             res.type("application/json");
-            String id = req.params(":id");
+            String id = req.params("id");
             return flowerController.getFlower(id);
         });
 
 
-        // Handle "404" file not found requests:
-        notFound((req, res) -> {
-            res.type("text");
-            res.status(404);
-            return "Sorry, we couldn't find that!";
-        });
 
         post("api/plant/leaveComment", (req, res) -> {
             res.type("application/json");
@@ -108,14 +109,22 @@ public class Server {
         post("/api/flowers/:id/like", (req, res) -> {
             res.type("application/json");
             String id = req.params("id");
-            System.out.println("hello");
-            return flowerController.incrementLikes(id, "Likes");
+            return flowerController.incrementLikes(id, "likes");
         });
 
         post("/api/flowers/:id/dislike", (req, res) -> {
             res.type("application/json");
             String id = req.params("id");
             return flowerController.incrementLikes(id, "Dislikes");
+        });
+
+        get("/*", clientRoute);
+
+        // Handle "404" file not found requests:
+        notFound((req, res) -> {
+            res.type("text");
+            res.status(404);
+            return "Sorry, we couldn't find that!";
         });
     }
 
