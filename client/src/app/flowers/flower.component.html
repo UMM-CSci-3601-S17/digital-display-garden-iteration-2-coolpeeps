@@ -58,6 +58,7 @@
     <h2 class="cultivar-font">{{ flower.cultivar }}</h2>
     <h4 class="flower-info-font">Common name: {{ flower.commonName }}</h4>
     <h4 class="flower-info-font">Source: {{ flower.source }}</h4>
+    <h4 class="flower-info-font"> ID: {{ flower._id}} </h4>
 </div>
 
 
@@ -65,10 +66,10 @@
 <p class="our-font">Do you like this flower?</p>
 <div class = "btn-group btn-group-justified">
     <a class="btn btn-default btn-color">
-        <span class="glyphicon glyphicon-thumbs-up"></span>
+        <span class="glyphicon glyphicon-thumbs-up" (click) = "this.rate(flower._id, true)" ></span>
     </a>
     <a class="btn btn-default btn-color">
-        <span class="glyphicon glyphicon-thumbs-down"></span>
+        <span class="glyphicon glyphicon-thumbs-down" (click) = "this.rate(flower._id, false)"></span>
     </a>
 </div>
 <br>
@@ -90,15 +91,16 @@
         <div>
             <p class="our-font">Tell Us Your Thoughts!</p>
             <label class="our-font">Comment:</label>
-            <textarea class="form-control" rows="4" formControlName="comment"></textarea>
+            <!--<textarea id = "text-input" class="form-control" rows="4" formControlName="comment"></textarea>-->
             <!--
             <input type="text" formControlName="comment" class="commentBox">
             -->
+            <textarea #input type="text" (input) = "comment = $event.target.value" class="form-control" rows="4" formControlName="comment"></textarea>
             <small [hidden]="myForm.controls.comment.valid || (myForm.controls.comment.pristine && !submitted)">
             </small>
         </div>
         <br>
-        <button class="submitButton btn btn-color our-font" type="submit">Submit</button>
+        <button class="submitButton btn btn-color our-font" type="submit" (click) = "this.comment(flower._id)">Submit</button>
     </form>
 </div>
 

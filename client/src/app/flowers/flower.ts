@@ -6,4 +6,5 @@ export interface Flower {
     commonName: string,
     cultivar: string,
     gardenLocation: string
+
 }
